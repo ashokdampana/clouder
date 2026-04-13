@@ -1,13 +1,27 @@
-name: Simple Test Workflow
+name: Backend Test Workflow
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  demo:
+  backend-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Greetings
-        run: echo "Hello world!"
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run backend tests
+        run: npm test
+
+      - name: Done message
+        run: echo "✅ Backend tests completed successfully!"
