@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import img from "./assets/react.svg";
+
+const api =  axios.create({
+  baseURL: import.meta.env.VITE_SERVER_URL
+})
 
 function App() {
   const [message, setMessage] = useState("");
@@ -8,24 +11,25 @@ function App() {
 
   // GET request
   useEffect(() => {
-    axios.get("http://localhost:5000/")
-      .then(res => setMessage(res.data.message))
-      .catch(err => console.log(err));
+    async function fetchHealth(params) {
+      const res = await api.get("/health");
+      setMessage( res.data.message);
+    }
+    fetchHealth()
   }, []);
 
   // POST request
   const sendData = async () => {
-    const res = await axios.post("http://localhost:5000/", {
+    const res = await api.post("/data", {
       name: "Ashok"
     });
-    setPostRes(res.data.message);
+    setPostRes(res.data.message + " " + res.data.name);
   };
 
   return (
     <div>
       <h1>Frontend</h1>
-      <img src={img} width="200" />
-      <p>{message}</p>
+      <p> here is /api/health result -- {message}</p>
 
       <button onClick={sendData}>Send POST</button>
       <p>{postRes}</p>
