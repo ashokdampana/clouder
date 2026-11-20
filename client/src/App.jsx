@@ -27,7 +27,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="App">
       <h1>Frontend</h1>
       <p> here is /api/health result -- {message}</p>
 
